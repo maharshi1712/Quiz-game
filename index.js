@@ -127,7 +127,7 @@ var currentQs = 0,
     curr, que, opts, des, html, html2, html3, correct, userAnswer;
 
 function showQuestion5() {
-
+    currentQs++;
     var curr = Math.floor(Math.random() * 20);
     var que = quiz.questions[curr].question;
     var opts = quiz.questions[curr].answers;
@@ -160,7 +160,6 @@ function showQuestion5() {
         $('.btn').click(function() {
             if (currentQs <= 4) {
                 $('.results-holder').fadeOut(100);
-                currentQs++;
                 showQuestion5();
             } else {
                 html3 = html3 + "<h2> YOUR SCORE = " + score + "</h2>";
