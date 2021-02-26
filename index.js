@@ -122,10 +122,11 @@ var quiz = {
     ]
 };
 
-var currentQs = 1,
-    score = 0;
+var currentQs = 0,
+    score = 0,
+    curr, que, opts, des, html, html2, html3, correct, userAnswer;
 
-function showQuestion(n) {
+function showQuestion5() {
 
     var curr = Math.floor(Math.random() * 20);
     var que = quiz.questions[curr].question;
@@ -142,11 +143,12 @@ function showQuestion(n) {
     var correct = "Wrong!";
     $('body').on('click', '.answer', function() {
         var userAnswer = $(this).text();
-        console.log(userAnswer);
         if (userAnswer === opts[ans]) {
             score++;
             document.getElementById("score").innerHTML = score;
             correct = "Correct!";
+        } else {
+            document.getElementById("score").innerHTML = score;
         }
         var html2 = "<h3> " + correct + "</h3>",
             html3 = "";
@@ -159,36 +161,94 @@ function showQuestion(n) {
             if (currentQs <= 4) {
                 $('.results-holder').fadeOut(100);
                 currentQs++;
-                showQuestion();
+                showQuestion5();
             } else {
                 html3 = html3 + "<h2> YOUR SCORE = " + score + "</h2>";
                 html3 = html3 + "</br>";
                 html3 = html3 + "<button type='button' id='startAgain' class='btn btn-outline-dark btn-lg'>Start Again</button>"
                 $(".question-holder,.results-holder,#showQs").fadeOut(500)
                 $('.results-holder').html(html3);
-                $('.results-holder').fadeIn(300);
-                $('#startAgain').click(function() {
-                    score = 0;
-                    currentQs = 0;
-                    $('.results-holder,.showQs,.question-holder').fadeOut(500);
-                    $("#ctn").fadeIn(500);
+                $('.results-holder').fadeIn(300, function() {
+                    $('#startAgain').click(function() {
+                        refreshPage();
+                    });
                 });
+
             }
         });
     });
+}
 
+function showQuestion10() {
+
+    var curr = Math.floor(Math.random() * 20);
+    var que = quiz.questions[curr].question;
+    var opts = quiz.questions[curr].answers;
+    var ans = quiz.questions[curr].correct;
+    var des = quiz.questions[curr].desc;
+    var html = "<h3 class='curr-question'>" + que + "</h2>";
+    html = html + "<ul class='all-answers'>";
+    for (var i = 0; i < opts.length; i++) {
+        html = html + "<li class='answer'>" + opts[i] + "</li>";
+    }
+    html = html + "</ul>";
+    $('.question-holder').html(html);
+    var correct = "Wrong!";
+    $('body').on('click', '.answer', function() {
+        var userAnswer = $(this).text();
+        if (userAnswer === opts[ans]) {
+            score++;
+            document.getElementById("score").innerHTML = score;
+            correct = "Correct!";
+        } else {
+            document.getElementById("score").innerHTML = score;
+        }
+        var html2 = "<h3> " + correct + "</h3>",
+            html3 = "";
+        html2 = html2 + "<h4> Tips : " + des + "</h4>";
+        html2 = html2 + "</br>";
+        html2 = html2 + "<button type='button' class='btn btn-dark'>Next</button>"
+        $('.results-holder').html(html2);
+        $('.results-holder').fadeIn(100);
+        $('.btn').click(function() {
+            if (currentQs <= 10) {
+                $('.results-holder').fadeOut(100);
+                currentQs++;
+                showQuestion10();
+            } else {
+                html3 = html3 + "<h2> YOUR SCORE = " + score + "</h2>";
+                html3 = html3 + "</br>";
+                html3 = html3 + "<button type='button' id='startAgain' class='btn btn-outline-dark btn-lg'>Start Again</button>"
+                $(".question-holder,.results-holder,#showQs").fadeOut(500)
+                $('.results-holder').html(html3);
+                $('.results-holder').fadeIn(300, function() {
+                    $('#startAgain').click(function() {
+                        refreshPage();
+                    });
+                });
+
+            }
+        });
+    });
+}
+
+function refreshPage() {
+    if (confirm("Do you want to play again?")) {
+        location.reload();
+    }
 }
 
 $('#btn5').click(function() {
     $("#ctn").fadeOut(500, function() {
         $("#showQs,.question-holder").fadeIn(500);
-        showQuestion(5);
+        showQuestion5();
     });
 });
+
 
 $('#btn10').click(function() {
     $("#ctn").fadeOut(500, function() {
         $("#showQs,.question-holder").fadeIn(500);
-        showQuestion(10);
+        showQuestion10();
     });
 });
