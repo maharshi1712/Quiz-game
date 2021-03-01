@@ -2,11 +2,19 @@ body {
     background: linear-gradient(to right, #c9d6ff, #e2e2e2);
 }
 
+#ctn,
+#container,
+#showQs,
+.question-holder,
+.results-holder {
+    justify-content: center;
+    margin: auto;
+}
+
 #container {
     position: relative;
     width: 450px;
     height: 180px;
-    left: 560px;
     top: 250px;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
